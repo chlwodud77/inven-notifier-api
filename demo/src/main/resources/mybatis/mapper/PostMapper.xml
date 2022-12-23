@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.jay.demo.dao.PostMapper">
+    <select id="getPostListBySiteName" resultType="com.jay.demo.dto.posts">
+        SELECT *
+        FROM posts
+        WHERE site_name = #{site_name}
+        ORDER BY collected_date
+        DESC LIMIT 100;
+    </select>
+    <select id="getPostList" resultType="com.jay.demo.dto.posts">
+        SELECT *
+        FROM posts
+        ORDER BY collected_date
+        DESC LIMIT 100;
+    </select>
+    <select id="getPostById" resultType="com.jay.demo.dto.posts">
+        SELECT *
+        FROM posts
+        WHERE post_id = #{post_id};
+    </select>
+    <select id="searchPostListByTitleKeyword" resultType="com.jay.demo.dto.posts">
+        SELECT *
+        FROM posts
+        WHERE title LIKE  '%${keyword}%'
+        ORDER BY collected_date
+        DESC LIMIT 10;
+    </select>
+</mapper>
