@@ -36,4 +36,9 @@ public class PostServiceImpl implements PostService {
     public List<posts> searchPostListByTitleKeyword(String keyword) {
         return postMapper.searchPostListByTitleKeyword(keyword);
     }
+
+    @Override
+    public List<posts> getPostListByPage(Integer startIndex) {
+        return postMapper.getPostListByPage(startIndex);
+    }
 }

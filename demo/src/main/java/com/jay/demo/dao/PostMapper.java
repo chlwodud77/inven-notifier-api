@@ -17,4 +17,6 @@ public interface PostMapper {
     posts getPostById(@Param("post_id") Integer postId);
 
     List<posts> searchPostListByTitleKeyword(@Param("keyword") String keyword);
+
+    List<posts> getPostListByPage(@Param("start_idx") Integer startIndex);
 }

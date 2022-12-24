@@ -23,10 +23,13 @@ public class postController {
     @Autowired
     public PostServiceImpl postService;
 
+    private static final Integer POST_LIST_LIMIT = 20;
+
     @GetMapping(value = {"/posts", "posts/{postId}"})
     public ResponseEntity<Map<String, Object>> posts(@PathVariable(required = false) Integer postId,
                                                      @RequestParam(required = false) String site_name,
-                                                     @RequestParam(required = false) String title_keyword
+                                                     @RequestParam(required = false) String title_keyword,
+                                                     @RequestParam(required = false) Integer page
                                                      ) {
 
         Map<String, Object> result = new HashMap<>();
@@ -35,15 +38,17 @@ public class postController {
             posts post = postService.getPostById(postId);
             result.put("data", post);
         } else {
-            List<posts> posts = null;
-            if (site_name == null & title_keyword == null) {
-                posts = postService.getPostList();
-            } else if (site_name == null & title_keyword != null) {
-                posts = postService.searchPostListByTitleKeyword(title_keyword);
-            } else if (site_name != null & title_keyword == null) {
-                posts = postService.getPostListBySiteName(site_name);
+            List<posts> posts;
+            if (page != null) {
+                posts = postService.getPostListByPage(POST_LIST_LIMIT * (page - 1));
             }
-            assert posts != null;
+            else if (title_keyword != null) {
+                posts = postService.searchPostListByTitleKeyword(title_keyword);
+            } else if (site_name != null) {
+                posts = postService.getPostListBySiteName(site_name);
+            } else {
+                posts = postService.getPostList();
+            }
             result.put("count", posts.size());
             result.put("data", posts);
         }

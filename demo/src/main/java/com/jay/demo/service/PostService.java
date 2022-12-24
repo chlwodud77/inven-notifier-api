@@ -9,4 +9,5 @@ public interface PostService {
     public List<posts> getPostList();
     posts getPostById(Integer postId);
     public List<posts> searchPostListByTitleKeyword(String keyword);
+    public List<posts> getPostListByPage(Integer startIndex);
 }
