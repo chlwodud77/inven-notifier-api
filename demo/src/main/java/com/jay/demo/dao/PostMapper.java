@@ -1,22 +1,21 @@
 package com.jay.demo.dao;
 
-import com.jay.demo.dto.posts;
+import com.jay.demo.dto.Posts;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
-import org.apache.ibatis.annotations.Select;
-import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
 @Mapper
 public interface PostMapper {
 
-    List<posts> getPostListBySiteName(@Param("site_name") String siteName);
-    List<posts> getPostList();
+    List<Posts> getPostListBySite(@Param("site_name") String siteName,
+                                  @Param("start_idx") Integer startIdx);
+    List<Posts> getPostList(@Param("start_idx") Integer startIdx);
 
-    posts getPostById(@Param("post_id") Integer postId);
+    Posts getPostById(@Param("post_id") Integer postId);
 
-    List<posts> searchPostListByTitleKeyword(@Param("keyword") String keyword);
-
-    List<posts> getPostListByPage(@Param("start_idx") Integer startIndex);
+    List<Posts> searchPostListBySiteAndTitleKeyword(@Param("site_name") String siteName,
+                                                    @Param("keyword") String keyword,
+                                                    @Param("start_idx") Integer startIdx);
 }

@@ -1,13 +1,12 @@
 package com.jay.demo.service;
 
-import com.jay.demo.dto.posts;
+import com.jay.demo.dto.Posts;
 
 import java.util.List;
 
 public interface PostService {
-    public List<posts> getPostListBySiteName(String siteName);
-    public List<posts> getPostList();
-    posts getPostById(Integer postId);
-    public List<posts> searchPostListByTitleKeyword(String keyword);
-    public List<posts> getPostListByPage(Integer startIndex);
+    public List<Posts> getPostListBySite(String siteName, Integer startIdx);
+    public List<Posts> getPostList(Integer startIndex);
+    Posts getPostById(Integer postId);
+    public List<Posts> searchPostListBySiteAndTitleKeyword(String siteName, String keyword, Integer startIdx);
 }

@@ -1,7 +1,7 @@
 package com.jay.demo.service.impl;
 
 import com.jay.demo.dao.PostMapper;
-import com.jay.demo.dto.posts;
+import com.jay.demo.dto.Posts;
 import com.jay.demo.service.PostService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,27 +18,22 @@ public class PostServiceImpl implements PostService {
 
 
     @Override
-    public List<posts> getPostListBySiteName(String siteName) {
-        return postMapper.getPostListBySiteName(siteName);
+    public List<Posts> getPostListBySite(String siteName, Integer startIdx) {
+        return postMapper.getPostListBySite(siteName, startIdx);
     }
 
     @Override
-    public List<posts> getPostList() {
-        return postMapper.getPostList();
+    public List<Posts> getPostList(Integer startIdx) {
+        return postMapper.getPostList(startIdx);
     }
 
     @Override
-    public posts getPostById(Integer postId) {
+    public Posts getPostById(Integer postId) {
         return postMapper.getPostById(postId);
     }
 
     @Override
-    public List<posts> searchPostListByTitleKeyword(String keyword) {
-        return postMapper.searchPostListByTitleKeyword(keyword);
-    }
-
-    @Override
-    public List<posts> getPostListByPage(Integer startIndex) {
-        return postMapper.getPostListByPage(startIndex);
+    public List<Posts> searchPostListBySiteAndTitleKeyword(String siteName, String keyword, Integer startIdx) {
+        return postMapper.searchPostListBySiteAndTitleKeyword(siteName, keyword, startIdx);
     }
 }

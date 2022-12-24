@@ -1,17 +1,17 @@
 package com.jay.demo.controller;
 
 
-import com.jay.demo.dto.posts;
+import com.jay.demo.dto.Posts;
 import com.jay.demo.service.impl.PostServiceImpl;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -35,19 +35,23 @@ public class postController {
         Map<String, Object> result = new HashMap<>();
 
         if (postId != null) {
-            posts post = postService.getPostById(postId);
+            Posts post = postService.getPostById(postId);
             result.put("data", post);
         } else {
-            List<posts> posts;
-            if (page != null) {
-                posts = postService.getPostListByPage(POST_LIST_LIMIT * (page - 1));
+            List<Posts> posts;
+            if (page != null & title_keyword == null & site_name == null) {
+                posts = postService.getPostList(POST_LIST_LIMIT * (page - 1));
             }
-            else if (title_keyword != null) {
-                posts = postService.searchPostListByTitleKeyword(title_keyword);
-            } else if (site_name != null) {
-                posts = postService.getPostListBySiteName(site_name);
-            } else {
-                posts = postService.getPostList();
+            else if (site_name != null & page != null) {
+                if (title_keyword == null) {
+                    posts = postService.getPostListBySite(site_name, POST_LIST_LIMIT * (page - 1));
+                } else {
+                    posts = postService.searchPostListBySiteAndTitleKeyword(site_name, title_keyword,
+                                                                        POST_LIST_LIMIT * (page - 1));
+                }
+            }
+            else {
+                posts = Collections.EMPTY_LIST;
             }
             result.put("count", posts.size());
             result.put("data", posts);
