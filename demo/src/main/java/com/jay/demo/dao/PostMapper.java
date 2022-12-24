@@ -15,7 +15,9 @@ public interface PostMapper {
 
     Posts getPostById(@Param("post_id") Integer postId);
 
-    List<Posts> searchPostListBySiteAndTitleKeyword(@Param("site_name") String siteName,
-                                                    @Param("keyword") String keyword,
+    List<Posts> searchPostListByTitle(@Param("title") String title,
+                                      @Param("start_idx") Integer startIdx);
+    List<Posts> searchPostListBySiteAndTitle(@Param("site_name") String siteName,
+                                                    @Param("title") String title,
                                                     @Param("start_idx") Integer startIdx);
 }

@@ -33,7 +33,12 @@ public class PostServiceImpl implements PostService {
     }
 
     @Override
-    public List<Posts> searchPostListBySiteAndTitleKeyword(String siteName, String keyword, Integer startIdx) {
-        return postMapper.searchPostListBySiteAndTitleKeyword(siteName, keyword, startIdx);
+    public List<Posts> searchPostListByTitle(String title, Integer startIdx) {
+        return postMapper.searchPostListByTitle(title, startIdx);
+    }
+
+    @Override
+    public List<Posts> searchPostListBySiteAndTitle(String siteName, String title, Integer startIdx) {
+        return postMapper.searchPostListBySiteAndTitle(siteName, title, startIdx);
     }
 }

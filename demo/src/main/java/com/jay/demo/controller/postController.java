@@ -11,7 +11,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -25,37 +24,43 @@ public class postController {
 
     private static final Integer POST_LIST_LIMIT = 20;
 
-    @GetMapping(value = {"/posts", "posts/{postId}"})
-    public ResponseEntity<Map<String, Object>> posts(@PathVariable(required = false) Integer postId,
-                                                     @RequestParam(required = false) String site_name,
-                                                     @RequestParam(required = false) String title_keyword,
-                                                     @RequestParam(required = false) Integer page
+    private static Integer getStartIdx(Integer page) {
+        return POST_LIST_LIMIT * (page - 1);
+    }
+
+    @GetMapping("posts/{postId}")
+    public ResponseEntity<Map<String, Object>> posts(@PathVariable() Integer postId) {
+        Map<String, Object> result = new HashMap<>();
+        Posts post = postService.getPostById(postId);
+        result.put("data", post);
+        return ResponseEntity.ok().body(result);
+    }
+
+    @GetMapping("/posts")
+    public ResponseEntity<Map<String, Object>> posts(@RequestParam(required = false) String site_name,
+                                                     @RequestParam(required = false) String title,
+                                                     @RequestParam() Integer page
                                                      ) {
 
         Map<String, Object> result = new HashMap<>();
+        List<Posts> posts;
 
-        if (postId != null) {
-            Posts post = postService.getPostById(postId);
-            result.put("data", post);
-        } else {
-            List<Posts> posts;
-            if (page != null & title_keyword == null & site_name == null) {
-                posts = postService.getPostList(POST_LIST_LIMIT * (page - 1));
-            }
-            else if (site_name != null & page != null) {
-                if (title_keyword == null) {
-                    posts = postService.getPostListBySite(site_name, POST_LIST_LIMIT * (page - 1));
-                } else {
-                    posts = postService.searchPostListBySiteAndTitleKeyword(site_name, title_keyword,
-                                                                        POST_LIST_LIMIT * (page - 1));
-                }
-            }
-            else {
-                posts = Collections.EMPTY_LIST;
-            }
-            result.put("count", posts.size());
-            result.put("data", posts);
+        if (title == null & site_name == null) {
+            posts = postService.getPostList(getStartIdx(page));
         }
+        else if (site_name != null) {
+            if (title == null) {
+                posts = postService.getPostListBySite(site_name, getStartIdx(page));
+            } else {
+                posts = postService.searchPostListBySiteAndTitle(site_name, title, getStartIdx(page));
+            }
+        }
+        else {
+            posts =  postService.searchPostListByTitle(title, getStartIdx(page));
+        }
+
+        result.put("count", posts.size());
+        result.put("data", posts);
         return ResponseEntity.ok().body(result);
     }
 
