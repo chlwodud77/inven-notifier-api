@@ -29,7 +29,7 @@ public class postController {
     }
 
     @GetMapping("posts/{postId}")
-    public ResponseEntity<Map<String, Object>> posts(@PathVariable() Integer postId) {
+    public ResponseEntity<Map<String, Object>> posts(@PathVariable() String postId) {
         Map<String, Object> result = new HashMap<>();
         Posts post = postService.getPostById(postId);
         result.put("data", post);

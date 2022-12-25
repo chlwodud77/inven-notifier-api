@@ -28,7 +28,7 @@ public class PostServiceImpl implements PostService {
     }
 
     @Override
-    public Posts getPostById(Integer postId) {
+    public Posts getPostById(String postId) {
         return postMapper.getPostById(postId);
     }
 

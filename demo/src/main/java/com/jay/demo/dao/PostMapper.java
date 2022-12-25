@@ -13,7 +13,7 @@ public interface PostMapper {
                                   @Param("start_idx") Integer startIdx);
     List<Posts> getPostList(@Param("start_idx") Integer startIdx);
 
-    Posts getPostById(@Param("post_id") Integer postId);
+    Posts getPostById(@Param("post_id") String postId);
 
     List<Posts> searchPostListByTitle(@Param("title") String title,
                                       @Param("start_idx") Integer startIdx);
